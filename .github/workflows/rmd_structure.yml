@@ -1,0 +1,20 @@
+on: 
+  push:
+    paths:
+    - 'hw3.Rmd'
+name: Check Rmd Structure
+jobs:
+  test:
+    runs-on: self-hosted
+    container:
+      image: ghcr.io/sta523-fa21/sta523-base:latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+    - name: Check Structure
+      run: |
+        tpl = readRDS(".github/workflows/template.rds")
+        checklist::quit_on_failure({
+          parsermd::rmd_check_template("hw3.Rmd", tpl)
+        })
+      shell: Rscript {0}

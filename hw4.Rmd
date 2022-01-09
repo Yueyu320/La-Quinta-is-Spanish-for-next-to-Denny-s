@@ -1,0 +1,118 @@
+---
+title: "Homework 4 - La Quinta is Spanish for next to Denny's"
+output: html_document
+author:
+- Tian, Xuyang
+- Yi, Yi
+- Yu, Camilla
+---
+
+
+## Task 1 - Scraping Denny's
+
+<!-- Detail your approach for scraping restaurant data from where2getit -->
+We first get the url of all states, then get all cities related to the states, and at last we get the restaurant urls. After that, we save the html file for every restaurant.
+
+For parsing part, we load every html file, and select address, phone, direction information using css selectors, and combine them into a tibble.
+
+<br />
+
+## Task 2 - Scraping LQ
+
+At first, we created two R scripts-- get_lq.R and parse_lq.R to implement 
+downloading task and extracting task. 
+
+For get_lq.R, we found the url for each hotel by pasting the original url and 
+the corresponding suffix together. And because there are some hotels that are 
+not in the U.S., we need to filter out them by using `str_detect` function to 
+keep all urls which include the name of states in the U.S.. Then, we created
+a data file to store the downloaded urls/htmls for each hotel. 
+
+For parse_lq.R, we first loaded the path for `data` file and store all the file
+names into lq object. Then, we created a function called scrape_hotel_page to
+extract the names, addresses, phone numbers, latitudes and longitudes taking 
+url as input and stored them as a tibble called hotel_info. After that, we wrote
+a for loop to loop through every url using function we created before and store 
+them into hotel_info. Finally, we saved the hotel_info into lq.rds. 
+
+<br />
+
+## Task 3 -  Distance Analysis
+
+```{r load_data}
+dennys = readRDS("data/dennys.rds")
+lq = readRDS("data/lq.rds")
+```
+
+<!-- Detail your statistical analysis of the pairwise distance between Denny's and LQ's -->
+At first, we find the set of distances from all La Quintas to the nearest Denny's and the set of distances from all Denny's to the nearest La Quinta.Then we check the summary of these two datasets. We notice that there are some abnormal data points in this set (Ex: larger than 3000km), thus we do a simple data cleaning to filter them out.
+
+For each Dennys, the summary of the distance  to nearest La Quintas is as following:
+
+1st Quantile: 4.14km, Median 9.70km,3rd Quantile 20.55km, Mean: 20.03km, min:0.03km
+
+And for each La Quintas, the the summary of the distance  to nearest Dennys is as following:
+
+1st Quantile: 20.66km, Median 240.68km,3rd Quantile 411.34km, Mean: 250.41km, min:0.03km
+
+The difference between the distributions is obvious. For each Dennys, there usually exists a La Quintas not far away. But for each La Quintas, its residents need to drive three hours to take a bite of delicious Dennys breakfast on average.
+
+Thus, we can easily infer that it's La Quinta's intentional strategy to actively open new locations near Dennys. But Dennys choose to keep its own style and have no interest to copy this strategy.
+
+Our density plot further proves the validity of our conjecture.
+
+Finally, we investigate the pairs in a certain radius. 
+
+For both of Dennys and La Quinta, around 18% of them have a good partner in the 3km range.
+
+And if we increase this range a bit larger, for Dennys, more than half of the locations have a La Quinta neighbor in the 10km range.
+
+But for La Quinta, this ratio drops to only 29%. This consolidates our conclusion one more time.
+
+In a nutshell, "La Quinta is Spanish for next to Denny's" is not only a joke but also a solid fact. We have enough reason to believe that this is La Quinta's strategy.
+
+Mitch Hedberg really has a keen eye. 
+
+```{r analysis}
+library(geosphere)
+
+denny_nearest_lq = c()
+for (i in 1:nrow(dennys)){
+  temp = c()
+  for (j in 1:nrow(lq)){
+    temp_dist = distm(c(dennys$longitude[i],dennys$latitude[i]),c(lq$Longitude[j],lq$Latitude[j]),fun=distHaversine)
+    temp = c(temp,temp_dist)
+  }
+  denny_nearest_lq = c(denny_nearest_lq,min(temp))
+}
+denny_nearest_lq = denny_nearest_lq/1000
+
+lq_nearest_denny = c()
+for (i in 1:nrow(lq)){
+  temp = c()
+  for (j in 1:nrow(dennys)){
+    temp_dist = distm(c(lq$Longitude[i],lq$Latitude[i]),c(dennys$longitude[j],dennys$latitude[j]),fun=distHaversine)
+    temp = c(temp,temp_dist)
+  }
+  lq_nearest_denny = c(lq_nearest_denny,min(temp))
+}
+lq_nearest_denny = lq_nearest_denny/1000
+# summary
+summary(denny_nearest_lq)
+summary(lq_nearest_denny)
+denny_nearest_lq = denny_nearest_lq[denny_nearest_lq<1000]
+summary(denny_nearest_lq)
+# plot
+library(ggplot2)
+df = rbind(data.frame(dist=lq_nearest_denny,dataset="lq"),data.frame(dist=denny_nearest_lq,dataset="dennys"))
+ggplot(df,aes(x=dist,fill=dataset))+geom_density(alpha=0.5)
+# investigate paris in a certain radius
+length(denny_nearest_lq[denny_nearest_lq<3]) / length(denny_nearest_lq)
+length(denny_nearest_lq[denny_nearest_lq<10]) / length(denny_nearest_lq)
+
+length(lq_nearest_denny[lq_nearest_denny<3]) / length(denny_nearest_lq)
+length(lq_nearest_denny[lq_nearest_denny<10]) / length(denny_nearest_lq)
+```
+
+
+<br />

@@ -1,0 +1,37 @@
+on: push
+name: Check Allowed Files
+jobs:
+  check:
+    runs-on: self-hosted
+    container:
+      image: ghcr.io/sta523-fa21/sta523-base:latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+    - name: Check allowed files
+      run: |
+        checklist::quit_on_failure({
+          checklist::check_allowed_files(
+            c(
+              "hw4.Rmd", "hw4.Rproj", "README.md", "hedberg.jpg",
+              "get_lq.R", "parse_lq.R",
+              "get_dennys.R", "parse_dennys.R",
+              "Makefile"
+            )
+          )
+        })
+      shell: Rscript {0}
+    - name: Check required files
+      run: |
+        checklist::quit_on_failure({
+          checklist::check_required_files(
+            c(
+              "hw4.Rmd", "hw4.Rproj", "README.md", "hedberg.jpg",
+              "get_lq.R", "parse_lq.R",
+              "get_dennys.R", "parse_dennys.R",
+              "Makefile"
+            )
+          )
+        })
+      shell: Rscript {0}
+
