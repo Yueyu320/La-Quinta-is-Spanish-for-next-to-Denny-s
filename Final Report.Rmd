@@ -1,10 +1,6 @@
 ---
 title: "Homework 4 - La Quinta is Spanish for next to Denny's"
 output: html_document
-author:
-- Tian, Xuyang
-- Yi, Yi
-- Yu, Camilla
 ---
 
 
