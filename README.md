@@ -1,15 +1,5 @@
-[![Check Allowed Files](https://github.com/Sta523-Fa21/hw04_lab01_team06/workflows/Check%20Allowed%20Files/badge.svg)](https://github.com/Sta523-Fa21/hw04_lab01_team06/actions?query=workflow:%22Check%20Allowed%20Files%22) [![Check Makefile runs](https://github.com/Sta523-Fa21/hw04_lab01_team06/workflows/Check%20Makefile%20runs/badge.svg)](https://github.com/Sta523-Fa21/hw04_lab01_team06/actions?query=workflow:%22Check%20Makefile%20runs%22) [![Check Rmd Structure](https://github.com/Sta523-Fa21/hw04_lab01_team06/workflows/Check%20Rmd%20Structure/badge.svg)](https://github.com/Sta523-Fa21/hw04_lab01_team06/actions?query=workflow:%22Check%20Rmd%20Structure%22)
-
-
-Homework 4 - La Quinta is Spanish for next to Denny's
+La Quinta is Spanish for next to Denny's
 ---
-due Friday 10/22 by 5:00 pm.
-
-
-* Tian, Xuyang - [xt40@duke.edu](mailto:xt40@duke.edu)
-* Yi, Yi - [yy326@duke.edu](mailto:yy326@duke.edu)
-* Yu, Camilla - [yy330@duke.edu](mailto:yy330@duke.edu)
-
 
 <br/>
 
@@ -19,7 +9,7 @@ due Friday 10/22 by 5:00 pm.
 
 ## Background
 
-This observation is a joke made famous by the late comedian Mitch Hedberg. Several years ago, John Reiser on his [blog](http://njgeo.org/2014/01/30/mitch-hedberg-and-gis/) detailed an approach to assess how true this joke actually is by scraping location data for all US locations of La Quinta and Denny's. Your goal for this homework will be to recreate this analysis within R and expand on both the data collection and analysis.
+This observation is a joke made famous by the late comedian Mitch Hedberg. Several years ago, John Reiser on his [blog](http://njgeo.org/2014/01/30/mitch-hedberg-and-gis/) detailed an approach to assess how true this joke actually is by scraping location data for all US locations of La Quinta and Denny's. Your goal will be to recreate this analysis within R and expand on both the data collection and analysis.
 
 <br/>
 
@@ -71,25 +61,6 @@ For this assignment you will need to create the following files:
 
 * `hw4.Rmd` - this document should detail how your group has chosen to implement your various download and parsing scripts. Additionally, it should wholly contain your distance analysis which loads the necessary data directly (and exclusively) from `data/lq.rds` and `data/dennys.rds`.
 
-* `Makefile` - this file will specify the interdependence between your script files and their various products. We will cover Makefile in general and the details of this specific file in Lecture 15.
-
-## Relevant lectures
-
-Lectures during Week 8 will be directly relevant to this assignment.
-
-- Lecture 14, Tuesday, October 12th - We will cover the basic organization of the Denny's and La Quinta website with some basic scraping examples. Additionally, we will demonstrate an alternative source of Denny's restaurant data via a non-public API used by the restaurant locator tool.
-
-- Lecture 15, Thursday, October 14th - We will cover the basics of the `make` tool and the creation of `Makefile`s. Specific details will be given for the construction of the `Makefile` necessary for this assignment.
-
-## Submission and grading
-
-This homework is due by *5:00 pm Friday, October 22nd*. You are to complete the assignment as a team and to keep everything (code, write ups, etc.) on your team's GitHub repository (commit early and often). All team members are expected to contribute equally to the completion of this assignment and group assessments will be given at its completion - anyone judged to not have sufficient contributed to the final product will have their grade penalized. While different teams members may have different coding backgrounds and abilities, it is the responsibility of every team member to understand how and why all code in the assignment works.
-
-The final product for this assignment should be all of the files listed in the *Expected Files* section above. As usual all files should be clearly and cleanly formatted. Your `hw4.Rmd` must include all of your write ups and results. Style, efficiency, formatting, and readability all count for this assignment, so please take the time to make sure everything looks good and your text and code are properly formatted. This document must be reproducible and I must be able to run `make` and have all of the scripts run successfully and your Rmd compile - projects that do not compile will be given a 0. 
-
+* `Makefile` - this file will specify the interdependence between your script files and their various products.
 
 <br/>
-
-
-
-
